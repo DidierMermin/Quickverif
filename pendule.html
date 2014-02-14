@@ -1,0 +1,46 @@
+<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html><head>
+<meta type="text/html" charset="UTF-8"></meta>
+<meta name="author"    content="Didier MERMIN"></meta>
+<meta name="viewport"  content="initial-scale=1.0, user-scalable=yes" />
+<script type="text/javascript" src="js/routines.js"></script>
+<script type="text/javascript">
+	function getURL() {
+		var URL  = location.search.substring (1);
+		if (URL != '') this.location.assign (URL);
+	}
+</script>
+<style type="text/css">
+	.Texte {color:		black;
+			opacity:	0.5;
+			font:       1.5em "Engravers MT",arial,sans-serif;
+			}
+</style>
+</head>
+<body BGCOLOR="silver" onload="getURL();">
+<table id="thediv" align="center" cellspacing="20">
+	<tr><td align="center"><img id="theimg" src="images/pendule.gif"></img></td></tr>
+	<tr><td class="Texte" align="center">
+	Votre demande <br/>
+	a &eacute;t&eacute; prise <br/>
+	en consid&eacute;ration   <br/><br/>
+	Merci de patienter
+	</td></tr>
+</table>
+</body>
+</html>

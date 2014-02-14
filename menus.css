@@ -1,0 +1,87 @@
+/*
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* Feuille CSS pour les menus de boutons alignés */
+/* Mettre 'solid' pour border-style si l'on veut un trait séparateur entre les boutons */
+
+.OPT1		{color:               #003F89;
+			 background-color:    #9999AA;
+			 line-height:         100%;
+			 text-align:          center;
+			 vertical-align:      middle;
+			 border-color:        silver;
+			 border-style:        none;
+			 border-right-width:  1px; 
+			 border-left-width:   0px; 
+			 border-top-width:    0px; 
+			 border-bottom-width: 0px; 
+			}
+
+.OPT1:hover	{color:               #0F448F;
+			 background-color:    #FF6600;
+			 cursor:              pointer;
+			}
+
+.ON1		{color:               #0F448F;
+			 background-color:    #FFC100;
+			 line-height:         100%;
+			 text-align:          center;
+			 vertical-align:      middle;
+			 border-color:        silver;
+			 border-style:        none;
+			 border-right-width:  1px; 
+			 border-left-width:   0px; 
+			 border-top-width:    0px; 
+			 border-bottom-width: 0px; 
+			}
+
+.OPT2		{color:               #003F89;
+			 background-color:    #9999AA;
+			 line-height:         100%;
+			 text-align:          center;
+			 vertical-align:      middle;
+			 border-color:        silver;
+			 border-style:        none;
+			 border-right-width:  1px; 
+			 border-left-width:   0px; 
+			 border-top-width:    0px; 
+			 border-bottom-width: 0px; 
+			}
+
+.OPT2:hover	{color:               #FFE2C0;
+			 background-color:    #E94746;
+			 cursor:              pointer;
+			}
+
+.ON2		{color:               #0F448F;
+			 background-color:    #FFE2C0;
+			 line-height:         100%;
+			 text-align:          center;
+			 vertical-align:      middle;
+			 border-color:        silver;
+			 border-style:        none;
+			 border-right-width:  1px; 
+			 border-left-width:   0px; 
+			 border-top-width:    0px; 
+			 border-bottom-width: 0px; 
+			}
+
+.Desactive	{opacity:          0.3;}
+.Desactive:hover {}
+
+body		 {background-color: #9999AA; color: #0F448F;}
+
+/* ------------------------------------------- */

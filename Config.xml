@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DemoConfig>
+<!--Titre optionnel pour la page d'accueil-->
+<Parametre Ide="Titre" Val="Ma config"/>
+<!--Parametre optionnel utilisable uniquement comme valeur des attributs "Via"
+Le shell wget.sh fait partie de la release, et doit être installé
+dans un répertoire de type cgi-bin du serveur utilisé comme relais.
+Exemple d'utilisation : 
+	<Domaine Ide="xxx" Uri="11.12.13.14" Via="Relais">
+		blablabla
+	</Domaine>
+-->
+<Parametre Ide="Relais" Val="http://11.12.13.14/cgi-bin/wget.sh?"/>
+<!--
+Premier exemple, le plus simple
+-->
+<Ferme Ide="Simple exemple">
+	<!--Dans le cas, l'objet Domaine sert uniquement à inclure une branche-->
+	<Domaine Ide="Simple exemple">
+		<!--Note: la page google ne s'affiche pas dans une iframe, seulement dans un onglet-->
+		<Branche Ide="Google" Uri="www.google.fr"/>
+		<Refapp  Nom="Google"/>
+	</Domaine>
+</Ferme>
+<!--Les applications avec leurs tests peuvent être dans un fichier séparé.
+On peut aussi les mélanger aux définitions des domaines/branches.
+L'objet Application ne doit pas être imbriqué dans un autre objet.
+-->
+<Application Ide="Google">
+	<Test Ide="Home page" Requete="/"/>
+</Application>
+<!--Simulation d'une ferme un peu grosse.
+Dans la réalité, les branches auraient des URI différentes.
+Remarquer que l'objet Refapp s'applique à toutes les branches ==> very simple !
+Le titre du domaine s'appliquera à toutes les branches, sauf la 07.
+-->
+<Ferme Ide="Big site simple">
+	<Domaine Ide="Wikipedia.1" Titre="Branche fictive de Wikipedia">
+		<Branche Uri="fr.wikipedia.org" Ide="W01"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W02"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W03"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W04"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W05"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W06"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W07" Titre="Mouton noir"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W08"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W09"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W10"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W11"/>
+		<Branche Uri="fr.wikipedia.org" Ide="W12"/>
+		<Refapp Nom="Wikipedia"/>
+	</Domaine>
+</Ferme>
+<!--On scinde le big site de façon à limiter la place occupée ==> on évite le scroll horizontal
+On montre une possibilité supplémentaire en mettant l'URI des branches en deux parties :
+- a) la principale au niveau du domaine
+- b) la secondaire au niveau des branches
+- c) l'attribut Pref sert à les combiner
+Dans la réalité, les branches auraient des URI différentes.
+-->
+<Ferme Ide="Big site partie 2">
+	<Domaine Ide="Wikipedia.2" Uri="wikipedia.org" Pref="." Titre="Branche fictive de Wikipedia">
+		<!--URI finale = Branche.Uri + Domaine.Pref + Domaine.Uri-->
+		<Branche Uri="fr" Ide="W13"/>
+		<Branche Uri="fr" Ide="W14"/>
+		<Branche Uri="fr" Ide="W15"/>
+		<Branche Uri="fr" Ide="W16"/>
+		<Branche Uri="fr" Ide="W17"/>
+		<Branche Uri="fr" Ide="W18"/>
+		<Branche Uri="fr" Ide="W19"/>
+		<Branche Uri="fr" Ide="W20"/>
+		<Branche Uri="fr" Ide="W21"/>
+		<Branche Uri="fr" Ide="W22"/>
+		<Branche Uri="fr" Ide="W23"/>
+		<Branche Uri="fr" Ide="W24"/>
+		<Refapp Nom="Wikipedia"/>
+	</Domaine>
+</Ferme>
+<!--La ferme s'agrandit encore.
+Cette fois, on suppose que chaque branche comporte 2 JVM,
+et les URI sont combinées différemment.
+Dans la réalité, les branches auraient des URI différentes, ainsi que les 2 JVM.
+-->
+<Ferme Ide="Big site partie 3">
+	<Domaine Ide="Wikipedia.3" Uri="fr" Suff="." Titre="Branche fictive de Wikipedia">
+		<!--URI finale = Domaine.Uri + Domaine.Suff + Branche.Uri + JVM.Uri-->
+		<Branche Uri="wikipedia" Ide="W25"/>
+		<Branche Uri="wikipedia" Ide="W26"/>
+		<Branche Uri="wikipedia" Ide="W27"/>
+		<Branche Uri="wikipedia" Ide="W28"/>
+		<Branche Uri="wikipedia" Ide="W29"/>
+		<Branche Uri="wikipedia" Ide="W30"/>
+		<Branche Uri="wikipedia" Ide="W31" Separ="||"/>
+		<Branche Uri="wikipedia" Ide="W32"/>
+		<Branche Uri="wikipedia" Ide="W33"/>
+		<JVM Uri=".org"/>
+		<JVM Uri=".org"/>
+		<JVM Uri=".org"/>
+		<!--A l'affichage les tests des 2 applis apparaîtront ensemble.-->
+		<Refapp Nom="Wikipedia"/>
+		<Refapp Nom="Informatique"/>
+	</Domaine>
+</Ferme>
+<!--Quelques tests pour Wikipedia ==> on peut en mettre beaucoup plus !-->
+<Application Ide="Wikipedia">
+	<Test Ide="Home page"     Requete="/"/>
+	<Test Ide="Plésiochrone"  Requete="/wiki/Plésiochrone"/>
+	<Test Ide="Brachychiton"  Requete="/wiki/Brachychiton"/>
+</Application>
+<!--Pas le droit de mettre un ' dans un Ide ==> on a mis un blanc.-->
+<Application Ide="Informatique">
+	<Test Ide="Définition d une JVM" Requete="/wiki/Machine_virtuelle_Java"/>
+</Application>
+
+</DemoConfig>

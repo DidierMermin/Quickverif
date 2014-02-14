@@ -1,0 +1,82 @@
+﻿<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="author"   content="Didier MERMIN"></meta>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
+<script type="text/javascript" src="js/routines.js"></script>
+<script type="text/javascript">
+	/*
+		Remplissage du tableau caché des tests, appel par theload() in load_datas.js
+	*/
+	function addMenuTST (ficxml, ficxsl) {displayXML (ficxml, ficxsl, 'menu_place'); return true;}
+	/*
+		Fonction de pilotage
+	*/
+	function runTest (_event_,appli,test) {parent.runTest (_event_, appli, test);}
+	/*
+		Fonctions d'affichage
+	*/
+	function setEntete  (txt)     {       document.getElementById ('Entete').innerHTML = txt;}
+	function getTitle   (ID)      {return document.getElementById ("test_"+ID).getAttribute ("title");}
+	function addToTitle (ID, txt) {       document.getElementById ("test_"+ID).title = getTitle (ID) + txt;}
+	function Done (appli, ID) {
+		document.getElementById ('img_'+appli+'_'+ID).src="images/done.png"
+	}
+	function Reset (appli, ID) {
+		document.getElementById ('img_'+appli+'_'+ID).src="images/point.png"
+	}
+	function cacheTout() {
+		var id, liste = document.getElementsByClassName ('Test');
+		for (j=0; j<liste.length; j++) {
+			id = liste[j].getAttribute ("id");
+			if (id === null) continue;
+			document.getElementById(id).style.display = 'none';
+		}
+		return true;
+	}
+	function showTest (IDAPP) {
+		var j, id, liste = document.getElementsByClassName ('Test');
+		var str = 'test_' + IDAPP + '_';
+		var lon = str.length;
+		for (j=0; j<liste.length; j++) {
+			id = liste[j].getAttribute ("id");
+			if (id === null) continue;
+			if (id.substring (0,lon) == str) {
+				document.getElementById(id).style.display = 'block';
+			}
+		}
+	}
+</script>
+<style type="text/css">
+	.Test:hover		{color:            white;
+					 background-color: #4F84DF;
+					 cursor:           pointer;
+					}
+	.Icones:hover   {color:#FF6600; cursor:pointer;}
+	body            {color:#CCCCCC;}
+	body            {background-color: #0F448F;
+					 color:            silver;
+					}
+</style>
+</head>
+<body onload="setNoSelect()" onkeydown="parent.keyDOWN(event,true);">
+	<div id="menu_place" style="width:100%;">
+	</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+﻿<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+<meta type="text/html" charset="UTF-8"></meta>
+<meta name="viewport"  content="initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Didier MERMIN"></meta>
+<title>Quickverif</title>
+<link    rel="shortcut icon" href="images/done.png"/>
+<script type="text/javascript" src="js/routines.js"  ></script>
+<script type="text/javascript" src="js/load_datas.js"></script>
+<script type="text/javascript" src="js/execution.js" ></script>
+<script type="text/javascript" src="js/pilotage.js"  ></script>
+<script type="text/javascript">
+	function checkNavigator() {
+		var NAVIGATOR = navigator.appName;
+		//alert ("navigator.appCodeName="+navigator.appCodeName+"\nnavigator.appName="+NAVIGATOR);
+		if (NAVIGATOR.substring(0,9) == "Microsoft") {
+			alert ("Cette appli ne fonctionne pas du tout avec IE.");
+			return false;
+		}
+		return true;
+	}
+	function gototopON() {
+		document.getElementById ("gototop").style.display = 'block';
+	}
+	function gototopOFF() {
+		document.getElementById ("gototop").style.display = 'none';
+	}
+	function gototop() {scrollTo (0,0);}
+</script>
+<style type="text/css">
+	.Cadre 		{border-color: silver;
+				 border-style: solid;
+				 border-width: 1px;
+				 border-collapse:collapse;
+				}
+	#gototop	{width:     100px;
+				height:     100px;
+				position:   relative;
+				top:        -50;
+				left:       1000;
+				z-index:    10;
+				}
+	body		{background-color: #0F448F;
+				 color:            silver;
+				 margin-top:       10px;
+				}
+</style>
+</head>
+<body onload="if (checkNavigator()) theload(); initALL(); setNoSelect(); return false;"
+   onkeydown="keyDOWN(event,true);" style="width:1300px">
+<div style="background-color:#9999AA;">
+<a name="top"></a>
+<table class="Cadre" cellspacing="0" align="center">
+	<tr>
+		<td>
+			<iframe id="CDE" name="CDE" width="480px" height="36px"
+				scrolling="no" frameborder="0" marginwidth="0" marginheight="0"
+				sandbox="allow-same-origin allow-top-navigation allow-forms allow-scripts"
+				src="CDE_menu.html">
+			</iframe>
+		</td>
+		<td class="Cadre" valign="top" rowspan="3">
+			<iframe id="BRANCHES" name="BRANCHES" width="810px" height="320px"
+				style="display:block"
+				scrolling="auto" frameborder="0" marginwidth="0" marginheight="0"
+				sandbox="allow-same-origin allow-top-navigation allow-forms allow-scripts"
+				src="Branches_menu.html">
+			</iframe>
+			<iframe id="APPLIS" name="APPLIS" width="810px" height="320px"
+				style="display:none"
+				scrolling="auto" frameborder="0" marginwidth="0" marginheight="0"
+				sandbox="allow-same-origin allow-top-navigation allow-forms allow-scripts"
+				src="Applis_menu.html">
+			</iframe>
+			<iframe id="FRAMELOG" name="FRAMELOG" width="810px" height="320px"
+				style="display:none"
+				scrolling="auto" frameborder="0" marginwidth="0" marginheight="0"
+				src="FrameLOG.html">
+			</iframe>
+		</td>
+	</tr>
+	<tr>
+		<td class="Cadre" id="td_JVM_CLOSED" valign="top" style="display:block">
+			<iframe id="JVM_CLOSED" name="JVM_CLOSED" width="480px" height="36px"
+				scrolling="no" frameborder="0" marginwidth="0" marginheight="0"
+				src="JVM_closed.html">
+			</iframe>
+		</td>
+		<td class="Cadre" id="td_JVM" valign="top" style="display:none">
+			<iframe id="JVM" name="JVM" width="480px" height="36px"
+				scrolling="no" frameborder="0" marginwidth="0" marginheight="0"
+				sandbox="allow-same-origin allow-top-navigation allow-forms allow-scripts"
+				src="JVM_menu.html">
+			</iframe>
+		</td>
+	</tr>
+	<tr>
+		<td id="td_TESTS_CLOSED" valign="top" style="display:block">
+			<iframe id="TESTS_CLOSED" name="TESTS_CLOSED" width="480px" height="240px"
+				scrolling="no" frameborder="0" marginwidth="0" marginheight="0"
+				src="Tests_closed.html">
+			</iframe>
+		</td>
+		<td id="td_TESTS" valign="top" style="display:none">
+			<iframe id="TESTS" name="TESTS" width="480px" height="240px"
+				scrolling="auto" frameborder="0" marginwidth="0" marginheight="0"
+				sandbox="allow-same-origin allow-top-navigation allow-forms allow-scripts"
+				src="Tests_menu.html">
+			</iframe>
+		</td>
+	</tr>
+</table></div>
+<div id="div_JOCKER" style="display:none">
+	<br/>
+	<iframe id="JOCKER" name="JOCKER" width="1300px" height="125px"
+		scrolling="no" frameborder="0" marginwidth="0" marginheight="0"
+		src="Jocker.html">
+	</iframe>
+</div>
+<div id="frames_place" align="left"></div>
+<div id="gototop" style="display:none">
+	<table><tr>
+	<td><img src="images/ouvre.jpg" onclick="parent.Ouvre();" border="0" style="cursor:pointer;"
+		title="Ouvre une nouvelle instance de Quickverif."></img>
+	</td>
+	<td><img src="images/RAZ.jpg" onclick="RAZ();" border="0" style="cursor:pointer;"
+		title="Effacement des traces des derni&egrave;res ex&eacute;cutions." alt="RAZ"></img>
+	</td>
+	<td><img src="images/gototop.jpg" onclick="gototop();" border="0" style="cursor:pointer;"
+		title="Sommet de la page"></img>
+	</td>
+	</tr></table>
+</div>
+</body>
+</html>

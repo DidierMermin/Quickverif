@@ -1,0 +1,59 @@
+<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="author"   content="Didier MERMIN"></meta>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="menus.css"/>
+<script type="text/javascript" src="js/routines.js"></script>
+<script type="text/javascript">
+	/*
+		Fonctions de pilotage
+	*/
+	function ActiveJVM (num) {if (Actif (num)) parent.ActiveJVM (num);}
+	/*
+		Actions sur les boutons
+	*/
+	function SetON (ID)     {document.getElementById("JVM"+ID).className = 'ON'+parent.Theme;  return true;}
+	function Desactive (ID) {document.getElementById("JVM"+ID).className = 'Desactive';        return true;}
+	function Reset (ID)     {document.getElementById("JVM"+ID).className = 'OPT'+parent.Theme; return true;}
+	function Actif (ID)     {
+		if (document.getElementById("JVM"+ID).className == "Desactive") return false;
+		return true;
+	}
+	function ResetALL() {
+		var ide, liste = document.getElementsByTagName('td');
+		for (var i=0; i<liste.length; i++) {liste[i].className = 'OPT'+parent.Theme;}
+	}
+</script>
+</head>
+<body onload="setNoSelect();" onkeydown="parent.keyDOWN(event,true);">
+	<table id="menu" align="center" width="100%" height="100%">
+	<tr>
+		<td id="JVM1"  class="OPT1" align="center" onclick="ActiveJVM('1');">JVM 1</td>
+		<td id="JVM2"  class="OPT1" align="center" onclick="ActiveJVM('2');">JVM 2</td>
+		<td id="JVM3"  class="OPT1" align="center" onclick="ActiveJVM('3');">JVM 3</td>
+		<td id="JVM4"  class="OPT1" align="center" onclick="ActiveJVM('4');">JVM 4</td>
+		<td id="JVM-1" class="OPT1" align="center" onclick="ActiveJVM('-1');" 
+		style="border-style:none"
+		title="Option: ex&eacute;cutions sur toutes les JVM (un test &agrave; la fois).">Toutes JVM</td>
+	</tr>
+	</table>
+</div>
+</body>
+</html>

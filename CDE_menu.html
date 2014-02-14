@@ -1,0 +1,86 @@
+<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html><head>
+<meta type="text/html" charset="UTF-8"></meta>
+<meta name="viewport"  content="initial-scale=1.0, user-scalable=yes" />
+<meta name="author"    content="Didier MERMIN"></meta>
+<link rel="stylesheet" type="text/css" href="menus.css"/>
+<script type="text/javascript" src="js/routines.js"></script>
+<script type="text/javascript">
+	/*
+		Fonctions de pilotage
+	*/
+	function Home ()    {if (Actif ('Home'   )) parent.Home ();}
+	function RAZ  ()    {if (Actif ('RAZ'    )) parent.RAZ  ();}
+	function Tous ()    {if (Actif ('Tous'   )) parent.Tous ();}
+	function Mono ()    {if (Actif ('Mono'   )) parent.MonoMulti ('Mono'   );}
+	function Multi()    {if (Actif ('Multi'  )) parent.MonoMulti ('Multi'  );}
+	function inFrames() {if (Actif ('Frames' )) parent.Ouverture ('Frames' );}
+	function Onglets()  {if (Actif ('Onglets')) parent.Ouverture ('Onglets');}
+	/*
+		Actions sur les boutons
+	*/
+	function SetON (ID)     {document.getElementById(ID).className = 'ON'+parent.Theme;}
+	function Desactive (ID) {document.getElementById(ID).className = 'Desactive';}
+	function Reset (ID)     {document.getElementById(ID).className = 'OPT'+parent.Theme;}
+	function Actif (ID)     {
+		if (document.getElementById(ID).className == "Desactive") return false;
+		return true;
+	}
+	function ResetALL() {
+		var liste = document.getElementsByTagName('td');
+		for (var i=0; i<liste.length; i++) {liste[i].className = 'OPT'+parent.Theme;}
+	}
+</script>
+</head>
+<body onload="setNoSelect();" onkeydown="parent.keyDOWN(event,true);">
+	<table align="left" width="100%" height="100%">
+	<tr>
+		<td class="OPT1" id="Home" align="center" onclick="Home();" width="13%"
+			title="Retour &agrave; l'&eacute;tat initial, avec RAZ des traces (Echap)."
+			style="border-style:none">
+			Home
+		</td>
+		<td class="OPT1" id="Onglets" align="center" onclick="Onglets();" width="17%"
+			title="Option: ouvertures dans de nouveaux onglets."
+			style="border-style:none">
+			Onglets
+		</td>
+		<td class="OPT1" id="Frames" align="center" onclick="inFrames();" width="15%"
+			title="Option: ouvertures dans des frames internes &agrave; cette page.">
+			Frames
+		</td>
+		<td class="OPT1" id="Multi" align="center" onclick="Multi();" width="15%"
+			title="Option: ex&eacute;cutions sur toutes les branches/JVM du m&ecirc;me domaine.">
+			Multi
+		</td>
+		<td class="OPT1" id="Mono" align="center" onclick="Mono();" width="15%"
+			title="Option: ex&eacute;cutions sur la branche s&eacute;lectionn&eacute;e seulement.">
+			Mono
+		</td>
+		<td class="OPT1" id="Tous" align="center" onclick="Tous();" width="15%"
+			title="RAZ + lancement de tous les tests sur la branche/JVM s&eacute;lectionn&eacute;e.">
+			Tous
+		</td>
+		<td class="OPT1" id="RAZ" align="center" onclick="RAZ();" width="10%"
+			title="Effacement des traces des derni&egrave;res ex&eacute;cutions.">
+			RAZ
+		</td>
+	</tr>
+	</table>
+</body>
+</html>

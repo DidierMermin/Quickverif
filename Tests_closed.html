@@ -1,0 +1,110 @@
+<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html><head>
+<meta type="text/html" charset="UTF-8"></meta>
+<meta name="viewport"  content="initial-scale=1.0, user-scalable=yes" />
+<meta name="author"    content="Didier MERMIN"></meta>
+<script type="text/javascript" src="js/routines.js"></script>
+<script type="text/javascript">
+	var braxml, tstxml, lien;
+	/*
+		Fonctions de pilotage
+	*/
+	function showLOG() {
+		if (!parent.LOGopened) {parent.ouvreLOG(); return;}
+		if ( parent.LOGopened) {
+			if (parent.Fermes) {parent.ouvreBRA(); return;}
+			parent.ouvreAPP();
+		}
+	}
+	function showBRA() {if (!parent.BRAopened) parent.ouvreBRA();}
+	function showAPP() {if (!parent.APPopened) parent.ouvreAPP();}
+	function Apropos() {
+		open ('images/Apropos.jpg', '_blank', 'location="no",menubar="no",resizable="no",scrollbars="no",status="no",titlebar="no",toolbar="no"');
+	}
+	/*
+		Actions sur les boutons
+	*/
+	function ResetALL() {document.getElementById ('Quickverif').src = 'images/tests_closed'+parent.Theme+'.jpg';}
+	/*
+		Divers
+	    Note: atload() est déclenchée à la fin de theload() in load_datas.js
+	*/
+	function atload() {
+		lien = document.getElementById ('Branches.xml');
+		lien.innerHTML = fileName (parent.braxml) + '<br/>';
+		lien.href = getBaseURL() + '/' + parent.braxml;
+		lien.style.display = 'block';
+		if (parent.tstxml != parent.braxml) {
+			lien = document.getElementById ('Tests.xml');
+			lien.innerHTML = fileName (parent.tstxml) + '<br/>';
+			lien.href = getBaseURL() + '/' + parent.tstxml;
+			lien.style.display = 'block';
+		}
+	}
+</script>
+<style type="text/css">
+	#Apropos{	width:      200px;
+				height:     200px;
+				position:   absolute;
+				top:        210;
+				left:       10;
+				z-index:    10;
+			}
+	#Menu	{	width:      300px;
+				height:     200px;
+				position:   absolute;
+				top:        5;
+				left:       10;
+				z-index:    10;
+			}
+	#Logo	{	width:      220px;
+				height:     220px;
+				position:   absolute;
+				top:        10;
+				left:       155;
+				z-index:    9;
+				opacity:	0.1;
+			}
+	.Option {	color:		white;
+				width:      200px;
+				opacity:	0.6;
+				font:       1.1em "Engravers MT",arial,sans-serif;
+				cursor:     pointer;
+			}
+	.Option:hover {	opacity: 1; }
+	a		{text-decoration: none}
+	body	{background-color: silver; color: #0F448F;}
+</style>
+</head>
+<body onload="setNoSelect();" onkeydown="parent.keyDOWN(event,true);">
+<img src="images/tests_closed1.jpg" id="Quickverif"></img>
+<img src="images/logo.gif" id="Logo"> </img>
+<div id="Menu">
+<a class="Option" onclick="parent.ouvreJOCKER();"  title="Affiche/masque la saisie d'un test quelconque (^M)."> Jocker </a><br/>
+<a class="Option"    href="modedemploi.html"      target="_blanck" title="Aide"> Mode d'emploi </a><br/>
+<a class="Option"    href="Branches.xml"          target="_blanck" id="Branches.xml" style="display:none" title="Affiche le fichier de configuration."></a>
+<a class="Option"    href="Tests.xml"             target="_blanck" id="Tests.xml"    style="display:none" title="Affiche le fichier de configuration."></a>
+<a class="Option" onclick="parent.changeTheme();"  title="Alterne le jeu de couleurs."> Couleurs </a><br/>
+<a class="Option" onclick="parent.Ouvre();"        title="Ouvre une nouvelle instance de Quickverif (^Q)."> Ouvre </a><br/>
+<a class="Option" onclick="showLOG();"             title="Affiche/masque les traces du chargement de la configuration."> Log </a>
+</div>
+<div id="Apropos">
+<a class="Option" onclick="Apropos();"> A propos </a>
+</div>
+</body>
+</html>

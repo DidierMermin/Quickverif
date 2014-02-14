@@ -1,0 +1,145 @@
+﻿<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="author"   content="Didier MERMIN"></meta>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
+<script type="text/javascript" src="js/routines.js"></script>
+<script type="text/javascript">
+	/*
+		Chargement HTML des branches - appel par theload() in load_datas.js
+	*/
+	function addMenuBRA (ficxml, ficxsl) {displayXML (ficxml, ficxsl, 'menu_place');}
+	/*
+		Fonctions de pilotage
+	*/
+	function ActiveBRA (ID) {if (Actif (ID)) parent.ActiveBRA (ID);}
+	/*
+		Actions sur les boutons
+	*/
+	function Reset      (ID)      {       document.getElementById ('BUD_'+ID).className = 'Bouton'+parent.Theme;}
+	function SetON      (ID)      {       document.getElementById ('BUD_'+ID).className = 'Active'+parent.Theme;}
+	function Desactive  (ID)      {       document.getElementById ("BUD_"+ID).className = 'Desactive';}
+	function getTitle   (ID)      {return document.getElementById ("BUD_"+ID).getAttribute("title");}
+	function setTitle   (ID, txt) {       document.getElementById ("BUD_"+ID).title = txt;}
+	function Actif (ID) {
+		if (document.getElementById ('BUD_'+ID).className == "Desactive") return false;
+		return true;
+	}
+	function ResetALL() {
+		var ide, liste = document.getElementsByTagName ('td');
+		for (var i=0; i<liste.length; i++) {
+			ide = liste[i].getAttribute('id');
+			if (ide ==  '')        continue;
+			if (ide === null)      continue;
+			if (ide === undefined) continue;
+			if (liste[i].getAttribute('id').substring(0,3) == 'BUD') {
+				liste[i].className = 'Bouton'+parent.Theme;
+			}
+		}
+	}
+</script>
+<style type="text/css">
+	.Ferme			{color:silver;
+					 border-bottom-style: solid;
+					 border-bottom-color: #4F84DF;
+					 border-bottom-width: 1px;
+					 border-collapse:     collapse;
+					 line-height:         29px;
+					}
+	.Bouton1		{color:            silver;
+					 border-style:     solid;
+					 border-color:     #0F448F;
+					 border-width:     1px;
+					 padding-left:     3px;
+					 padding-right:    3px;
+					 padding-top:      2px;
+					 padding-bottom:   2px;
+					 line-height:      29px;
+					 border-radius:    6px;
+					}
+	.Bouton1:hover	{color:            #0F448F;
+					 border-style:     solid;
+					 border-color:     #FF6600;
+					 background-color: #FF6600;
+					 cursor:           pointer;
+					 line-height:      29px;
+					 border-radius:    6px;
+					 /* font-weight:   bold; */
+					}
+	.Active1		{color:            #0F448F;
+					 border-style:     solid;
+					 border-color:     #FFC100;
+					 border-width:     1px;
+					 padding-left:     3px;
+					 padding-right:    3px;
+					 padding-top:      2px;
+					 padding-bottom:   2px;
+					 background-color: #FFC100;
+					 line-height:      29px;
+					 border-radius:    6px;
+					}
+	.Bouton2		{color:            silver;
+					 border-style:     solid;
+					 border-color:     #0F448F;
+					 border-width:     1px;
+					 padding-left:     3px;
+					 padding-right:    3px;
+					 padding-top:      2px;
+					 padding-bottom:   2px;
+					 line-height:      29px;
+					 border-radius:    6px;
+					}
+	.Bouton2:hover	{color:            #FFE2C0;
+					 border-style:     solid;
+					 border-color:     #E94746;
+					 background-color: #E94746;
+					 cursor:           pointer;
+					 line-height:      29px;
+					 border-radius:    6px;
+					 /* font-weight:   bold; */
+					}
+	.Active2		{color:            #E94746;
+					 border-style:     solid;
+					 border-color:     #0F448F;
+					 border-width:     1px;
+					 padding-left:     3px;
+					 padding-right:    3px;
+					 padding-top:      2px;
+					 padding-bottom:   2px;
+					 background-color: #FFE2C0;
+					 line-height:      29px;
+					 border-radius:    6px;
+					}
+	.Desactive		{color:            white;
+					 border-style:     solid;
+					 border-color:     #0F448F;
+					 border-width:     1px;
+					 line-height:      29px;
+					 opacity:          0.4;
+					}
+	body            {background-color: #0F448F;
+					 color:            silver;
+					}
+</style>
+</head>
+<body onload="setNoSelect();" onkeydown="parent.keyDOWN(event,true);">
+	<div id="menu_place">
+	</div>
+</body>
+</html>

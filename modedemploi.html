@@ -1,0 +1,375 @@
+<html><head>
+<meta charset="UTF-8"></meta>
+<meta name="author" content="Didier MERMIN"></meta>
+<title>Aide de Quickverif</title>
+<link rel="shortcut icon" href="images/done.png"/>
+<style type="text/css">
+	body   {color:            black;
+			background-color: white;
+			font:             1.2em arial,sans-serif;
+			}
+</style>
+</head>
+<body>
+<a name="Sommaire"></a>
+<pre>
+<h3>                                Aide de Quickverif</h3><h3>Sommaire</h3>   - <a href="#Interface">L'interface</a>
+   - <a href="#Testviaserveur">Tests via un serveur tiers</a>
+   - <a href="#Configuration">Configuration en XML</a>
+   - <a href="#Objets">Les objets et leurs attributs</a>
+   - <a href="#Structure">R&eacute;sum&eacute; de la structure des donn&eacute;es</a>
+   - <a href="#Algorithme">Algorithme du calcul des URI</a>
+   - <a href="#Erreurs_1">Erreurs au chargement</a>
+   - <a href="#Erreurs_2">Erreurs au calcul des URI</a>
+   - <a href="#Technique">Structure technique</a>
+   - <a href="#Lancement">Lancement de Quickverif</a>
+
+<pre><a name="Interface"></a><h3>L'interface</h3><a name="Clavier"></a>1) <u>Les raccourcis clavier</u>
+
+   - <strong>Ctrl-W</strong> : fermeture de l'onglet courant.
+   - <strong>Ctrl-Q</strong> : ouverture d'une nouvelle instance de Quickverif.
+   - <strong>Ctrl-M</strong> : ouverture/fermeture de la fen&ecirc;tre du Jocker.
+   - <strong>Ctrl-C</strong> : interruption des lancements sans RAZ.
+   - <strong>Echap</strong>  : interruption des lancements avec RAZ.
+   - <strong>Ctrl-!</strong> : bascule affichage des branches par fermes/par applis
+   - <strong>Shift + clic test ou bouton reload</strong> : affichage de l'URL du test dans la fen&ecirc;tre du Jocker.
+   
+   Note: les raccourcis ne marchent plus quand le curseur s'est mis dans une zone de saisie
+         contenue dans un test.
+   
+<a name="FauxKO"></a>2) <u>Les faux KO</u>
+
+   - Juste apr&egrave;s la relance d'une branche, quelques tests peuvent &ecirc;tre KO.
+     Vous pouvez confirmer avec le bouton <img src="images/rejouer.png" height="50px" width="50px" title="Reload"/>
+
+<a name="Onglets"></a>3) <u>Ouverture dans des onglets</u>
+
+   Dans le cas de lancements en boucle, l'utilisateur se retrouve sur le dernier onglet.
+   Apr&egrave;s contr&ocirc;le du r&eacute;sultat, le fermer par <strong>Ctrl-W</strong> pour voir appara&icirc;tre l'avant-dernier, etc.
+   <strong>C'est tr&egrave;s rapide.</strong>
+   Note : quand on clique sur le titre d'une iframe, le test s'ouvre dans un onglet.
+
+<a name="JOCKER"></a>4) <u>Ex&eacute;cution d'une URL saisie</u>
+
+   1) Cliquer sur <strong>Home</strong> puis sur <strong>JOCKER</strong> pour faire appara&icirc;tre la fen&ecirc;tre de saisie.
+   2) Saisir la requ&ecirc;te &agrave; tester.
+   3) S&eacute;lectionner une branche/JVM et les options voulues.
+   4) Cliquer sur Ex&eacute;cuter.
+
+   Si la requ&ecirc;te commence par http://, elle est ex&eacute;cut&eacute;e telle quelle     en tenant compte des options.
+   Si elle commence par /, elle est envoy&eacute;e &agrave; la branche/JVM s&eacute;lectionn&eacute;e en tenant compte des options.
+   
+   <strong>Cas particulier</strong> : branche dont les applications sont d&eacute;clar&eacute;es par des &lt;Refapp Uri="valeur"...&gt; : 
+   ==> la requ&ecirc;te doit commencer par la "valeur" correspondant &agrave; l'application cibl&eacute;e.
+
+<a name="Testviaserveur"></a><h3>Tests via un serveur tiers</h3>   Pour tester des serveurs inaccessibles depuis le poste de travail, on peut utiliser l'attribut <a href="#Objets"><i>Via</i></a>.
+   Quickverif colle sa valeur devant l'URL du test, puis ex&eacute;cute l'URL qui en r&eacute;sulte.
+   
+   Par exmple: Via="<font color="blue">http://10.11.12.13/cgi-bin/wget.sh</font><font color="red">?</font>"
+   
+   Livr&eacute; avec Quickverif, wget.sh est un petit shell qu'il faut installer sur le cgi-bin du serveur
+   relais, mais n'importe quel ex&eacute;cutable de votre cru peut faire l'affaire.
+
+   URL du test                 : <font color="green">http://branche100.monsite.fr/monappli/un-test</font>
+   URL ex&eacute;cut&eacute;e par Quickverif : <font color="blue" >http://10.11.12.13/cgi-bin/wget.sh</font><font color="red">?</font><font color="green">http://branche100.monsite.fr/monappli/un-test</font>
+   URL ex&eacute;cut&eacute;e par wget.sh    : <font color="green">http://branche100.monsite.fr/monappli/un-test</font>
+
+<a name="Configuration"></a><h3>Configuration en XML</h3>1) <u>Quelques r&egrave;gles</u>
+
+   - Quand on d&eacute;clare des <strong>JVM</strong>, les branches doivent &ecirc;tre identiques.
+     ==> elles ne peuvent pas contenir d'objets <strong>Refapp</strong>.
+
+   - L'objet <strong>Refapp</strong>, qui sert &agrave; faire le lien avec les tests d'une application,
+     peut &ecirc;tre attribu&eacute; aux objets Domaine et Branche.
+     ==> Dans un Domaine, il s'applique &agrave; toutes ses branches.
+	 
+   - L'attribut <strong>Via</strong>, qui signale une ex&eacute;cution <i>via</i> un cgi-bin, (voir ci-dessus <a href="#Testviaserveur">Tests via un serveur tiers</a>),
+     peut &ecirc;tre attribu&eacute; aux objets : Domaine, Branche, Refapp et Test.
+     ==> Dans un Domaine, il s'applique &agrave; toutes ses branches.
+     ==> Dans une Branche, il s'applique &agrave; tous ses Refapp.
+     ==> Dans un Refapp, il s'applique &agrave; tous les tests de l'application r&eacute;f&eacute;renc&eacute;e.
+     ==> Dans un Test, il ne s'applique qu'au test concern&eacute;.
+     Dans les commentaires des JS : suivre le mot-clef "Descend".
+
+<a name="Objets"></a>2) <u>Les objets et leurs attributs</u>
+
+   - <strong>Parametre</strong> : nom pour une valeur utilis&eacute;e de fa&ccedil;on r&eacute;currente
+     <strong>Ide</strong> = identifiant obligatoire = nom du param&egrave;tre
+     <strong>Val</strong> = valeur du param&egrave;tre
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus "sous" l'objet racine, par exemple &lt;Quickverif&gt;.
+
+   - <strong>Ferme</strong> : groupe de Domaines
+     <strong>Ide</strong> = identifiant obligatoire
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus "sous" l'objet racine, par exemple &lt;Quickverif&gt;.
+
+   - <strong>Domaine</strong> : groupe de Branches
+     <strong>Ide</strong>  = identifiant oblig.
+     <strong>Uri</strong>  = URI optionnel
+     <strong>Pref</strong> = pr&eacute;fixe opt. : voir <a href="#Algorithme"><i>Algorithme du calcul des URI</i></a>
+     <strong>Suff</strong> = suffixe opt. : voir <a href="#Algorithme"><i>Algorithme du calcul des URI</i></a>
+     <strong>Via</strong>  = URL d'un cgi-bin depuis lequel on doit ex&eacute;cuter des tests
+            Ex: http://10.10.10.43/cgi-bin/wget.sh?
+            <strong>Peut &ecirc;tre un nom de param&egrave;tre.</strong>
+     <strong>Titre</strong> opt.
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus dans un objet <strong>Ferme</strong>.
+     - Doit contenir au moins un objet <strong>Branche</strong>.
+     - Peut contenir des objets <strong>JVM</strong> et <strong>Refapp</strong>.
+     - Le titre s'applique &agrave; toutes les branches qui n'ont pas elles-m&ecirc;mes un titre.
+	 
+   - <strong>Branche</strong>
+     <strong>Ide</strong> = identifiant oblig.
+     <strong>Uri</strong> = URI oblig.
+     <strong>Via</strong> opt.
+     <strong>Titre</strong> opt.
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus dans un objet <strong>Domaine</strong>.
+     - Peut contenir des objets <strong>Refapp</strong> (si le domaine n'a pas de JVM).
+
+   - <strong>JVM</strong>
+     <strong>Uri</strong> = URI oblig.
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus dans un objet <strong>Domaine</strong>.
+     - Une JVM est trait&eacute;e comme une partie (ou &eacute;l&eacute;ment) de chacune des branches du domaine.
+
+   - <strong>Refapp</strong> : r&eacute;f&eacute;rence &agrave; une application, permet de retrouver les tests.
+     <strong>Nom</strong> = identifiant d'un objet Application; obligatoire
+     <strong>Uri</strong> = URI opt.
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus dans un objet <strong>Domaine</strong> ou <strong>Branche</strong>.
+
+   - <strong>Application</strong> : groupe de tests
+     <strong>Ide</strong> = identifiant oblig.
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus "sous" l'objet racine, par exemple &lt;Quickverif&gt;.
+     - Les objets Applications avec leurs objets Test peuvent &ecirc;tre dans un fichier s&eacute;par&eacute;.
+
+   - <strong>Test</strong>
+     <strong>Ide</strong>  = identifiant oblig. : doit &ecirc;tre unique pour une application donn&eacute;e.
+     <strong>Requete</strong> : obligatoire si pas d'attribut Via (penser &agrave; traduire les &amp; en &amp;amp;)
+     <strong>Via</strong>     : obligatoire si pas d'attribut Requete
+     Conditions d'utilisation :
+     - Doit &ecirc;tre inclus dans un objet <strong>Application</strong>.
+
+<a name="Structure"></a>3) <u>R&eacute;sum&eacute; de la structure des donn&eacute;es</u>
+
+   Structure XML simplifi&eacute;e                             Si les objets &eacute;taient
+                                                        des r&eacute;pertoires Unix
+   -----------------------------------------------------------------------------------------------------
+   &lt;Quickverif&gt;                                         /Quickverif
+       &lt;Parametre/&gt;                                     /Quickverif/Parametre
+       &lt;Ferme&gt;                                          /Quickverif/Ferme
+           &lt;Domaine&gt;                                    /Quickverif/Ferme/Domaine
+               &lt;Branche/&gt;  (si branche sans &lt;Refapp&gt;)   /Quickverif/Ferme/Domaine/Branche
+               &lt;Branche&gt;   (pour inclusions &lt;Refapp&gt;)   /Quickverif/Ferme/Domaine/Branche
+                   &lt;Refapp&gt;                             /Quickverif/Ferme/Domaine/Branche/Refapp
+               &lt;/Branche&gt;
+               &lt;JVM/&gt;                                   /Quickverif/Ferme/Domaine/JVM
+               &lt;Refapp/&gt;                                /Quickverif/Ferme/Domaine/Refapp
+           &lt;/Domaine&gt;
+       &lt;/Ferme&gt;
+       &lt;Application&gt;                                    /Quickverif/Application
+           &lt;Test/&gt;                                      /Quickverif/Application/Test
+       &lt;/Application&gt;
+   &lt;/Quickverif&gt;
+
+   Cette structure est tr&egrave;s souple car les identifiants sont absolument arbitraires,
+   ce qui permet d'organiser les donn&eacute;es comme on veut. On peut par exemple donner 
+   un nom d'application &agrave; un domaine, et lui attribuer autant de branches qu'il y a 
+   de serveurs quelconques sur lesquels l'application est install&eacute;e.
+
+<a name="Algorithme"></a><h3>Algorithme du calcul des URI</h3>Ici, le "calcul des URI" est le calcul de la partie de l'URL avant le 1er /.
+
+   1) On initialise l'URI avec celui fourni dans la branche  : URI = Uri de la branche.
+   2) Si le num&eacute;ro de JVM est compris entre 1 et maxJVM      : URI = URI + Uri de la JVM.
+   3) Si l'attribut Pref du domaine est non vide             : URI = URI + Pref + Uri du domaine.
+   4) Si l'attribut Suff du domaine est non vide             : URI = URI du domaine + Suff + URI.
+   5) Si ni Pref ni Suff et si l'Uri du domaine est non vide : URI = Uri du domaine + URI.
+   6) Si Uri dans Refapp : URI = URI + Uri de Refapp (permet de d&eacute;clarer un port sp&eacute;cifique &agrave; une appli).
+
+   Finalement, il y a 3 r&egrave;gles de formation des URI :
+
+   1) Avec attribut Pref : Uri_Branche + Uri_JVM + Pref + Uri_Domaine + Uri_Refapp
+   2) Avec attribut Suff : Uri_Domaine + Suff + Uri_Branche + Uri_JVM + Uri_Refapp
+   3) Sans Pref ni Suff  : Uri_Domaine +        Uri_Branche + Uri_JVM + Uri_Refapp
+
+<a name="Erreurs_1"></a><h3>Erreurs au chargement</h3>   1) Si le fichier de configuration n'a pas &eacute;t&eacute; trouv&eacute;,
+   ou s'il n'est pas dans un sous-r&eacute;pertoire de Quickverif, Firefox produit l'erreur suivante:
+   <i>
+   Debut de theload().
+   Impossible de charger </i>[fichier]<i> pour le parsing.
+   Error Message : Access to restricted URI denied
+   Error Code : 0
+   Error Name : NS_ERROR_DOM_BAD_URI
+   </i>
+   Exemple d'URL invalide: file:///J:/oneDir/Quickverif/Quickverif.html?file:///J:/otherDir/Config.xml
+   
+   2) <i>Impossible de charger [fichier.xml] pour le parsing.</i>
+   3) <i>Aucune donnee. Soit le fichier n'a pas ete trouve, soit il comporte une erreur xml. [fichier.xml]</i>
+   4) <i>Impossible de parser [fichier.xml] en javascript.</i>
+   5) <i>Erreur: aucun objet [Objet]. Soit le fichier n'est pas le bon, soit il comporte une erreur de syntaxe XML.</i>
+      ==> Fichier XML pas trouv&eacute; ou comportant une faute de syntaxe.
+      ==> V&eacute;rifier qu'il est dans un sous-r&eacute;pertoire de Quickverif.html.
+      ==> V&eacute;rifier surtout, dans les derni&egrave;res modifications, que :
+          - les objets XML sont correctement ferm&eacute;s;
+          - <strong>tous</strong> les &amp; ont &eacute;t&eacute; chang&eacute;s en "&amp;amp;".
+
+   6) <i>Impossible d'afficher les branches en HTML via [fichier.xsl]</i>
+   7) <i>Impossible d'afficher (mais invisibles) les tests en HTML via [fichier.xsl]</i>
+      ==> Erreur dans le fichier XSL.
+
+   8) <i>Impossible d'ajouter les iframes d'execution.</i>
+      ==> Erreur dans le fichier add_frames.xsl
+
+   9) <i>Erreur: [objet] inclus dans [Objet] et non pas dans [Objet_racine].</i>
+      ==> l'objet concern&eacute; n'est pas au bon niveau de structure.
+
+   10) <i>Erreur: branche [Nom] avec JVM et avec Refapp.</i>
+      <i>Deplacez ses Refapp au niveau de son domaine (Nom)</i>
+      ==> Si le domaine de la branche a des JVM, alors les branches doivent &ecirc;tre identiques.
+      ==> Si une branche contient un objet Refapp, elle n'est pas identique aux autres.
+
+   11) <i>Erreur calcul URI sur la branche [Nom]</i>
+       <i>Erreur calcul URI sur la branche [Nom]/JVM=n]</i>
+       ==> Ces messages apparaissent au retour de calcURI_brajvm(), et sont donc pr&eacute;c&eacute;d&eacute;s d'une erreur plus explicite.
+
+   12) <i>Erreur: test sans requete et sans attribut Via.</i>
+       <i>Erreur: test sans requete et attribut Via vide.</i>
+       <i>Erreur: test avec requete vide et sans attribut Via.</i>
+       <i>Erreur: test avec requete vide et attribut Via vide.</i>
+       ==> Un test doit au moins avoir un attribut <strong>Requete</strong> non vide OU un attribut <strong>Via</strong> non vide.
+	
+<a name="Erreurs_2"></a><h3>Erreurs au calcul des URI</h3>   Toutes les erreurs ci-dessous r&eacute;sultent d'un bug dans les scripts.
+
+   1) <i>Erreur: appel de calcURI_brajvm() sans objet branche.</i>
+   2) <i>Erreur: appel de calcURI_brajvm() avec objet branche sans numero de domaine.</i>
+   3) <i>Erreur: appel de calcURI_brajvm() avec un mauvais numero de JVM (N).</i>
+   4) <i>Erreur: appel de calcURI_brajvm() avec un numero de JVM (N)</i>
+      <i>superieur au nombre de JVM (M)</i> <i>du domaine [Nom].</i>
+   5) <i>Erreur: appel de calcURI_brajvm() avec numero de JVM null</i> <i>alors que le domaine (Nom) comporte [N] JVM.</i>
+
+<a name="Technique"></a><h3>Structure technique</h3>L'ensemble se compose principalement de 6 parties :
+
+   - Frame des branches, qui masque la frame du log du chargement;
+   - Frame des tests qui masque celle du menu "principal" (qui est secondaire...)
+     Les tests sont charg&eacute;s en un seul tableau masqu&eacute;, et affich&eacute;s s&eacute;lectivement.
+   - Frame des commandes et options courantes (Home,...)
+   - Frame pour les JVM;
+   - Frames masqu&eacute;es des ex&eacute;cutions;
+   - Frame du Jocker.
+
+1) <u>Menu des commandes et options</u> (Home, Onglets,...)
+
+   - iframe : CDE
+   - HTML   : CDE_menu.html
+   - JS     : pilotage.js
+   - Format : menus.css
+
+2) <u>Menu des JVM</u>
+
+   - iframe : JVM
+   - HTML   : JVM_menu.html
+   - JS     : pilotage.js
+   - Format : menus.css
+   - Masqu&eacute; par l'iframe JVM_CLOSED si pas de JVM active.
+
+3) <u>Menu des tests</u>
+
+   - iframe : TESTS
+   - HTML   : Tests_menu.html
+   - XSL    : Tests_menu.xsl
+   - Chargement : fonction TESTS.addMenuTST() d&eacute;clench&eacute;e par theload().
+   - Masqu&eacute; par l'iframe TESTS_CLOSED si pas de branche active.
+
+4) <u>Menu des branches</u>
+
+   - iframe : BRANCHES
+   - HTML   : Branches_menu.html
+   - XSL    : Branches_menu.xsl
+   - Chargement : BRANCHES.addMenuBRA() d&eacute;clench&eacute;e par theload().
+   - Masqu&eacute; par l'iframe FRAMELOG si l'utilisateur a cliqu&eacute; sur LOG ou si erreur au chargement.
+
+5) <u>Menu principal</u>
+
+   C'est celui qui appara&icirc;t au lancement avec un logo sur fond gris.
+   
+   - iframe : TESTS_CLOSED
+   - HTML   : Tests_closed.html
+   - Masqu&eacute; par l'iframe TESTS apr&egrave;s s&eacute;lection d'une branche, d'o&ugrave; son nom.
+
+6) <u>Frames d'ex&eacute;cution des tests</u>
+
+   - Noms : frame_&lt;numero&gt;
+   - XSL  : add_frames.xsl
+   - Chargement : &agrave; la fin de theload().
+   
+7) <u>Jocker</u>
+
+   - iframe : JOCKER, divis&eacute;e en 2 autres iframes : Jocker_CDE et Jocker_TST.
+   - HTML   : Jocker.html, Jocker_menu.html, Jocker_test.html
+   
+8) <u>Autres fichiers JS</u>
+
+   - load_datas.js : chargement des branches et des tests (parsing de la config XML).
+                     Contient theload() et toutes fonctions appel&eacute;es par theload().
+                     Contient les donn&eacute;es charg&eacute;es.
+					 
+   - execution.js  : ex&eacute;cution des tests et calcURI_brajvm().
+
+   - routines.js   : fonctions diverses utilis&eacute;es dans plusieurs fichiers.
+					 
+9) <u><strong>Principes de structuration</strong></u>
+
+   - Les fonctions devant modifier/lire/montrer/cacher les &eacute;l&eacute;ments d'une iframe sont dans le fichier HTML de l'iframe concern&eacute;e.
+   
+   - <strong>Les fonctions d&eacute;clench&eacute;es par un clic sont dans pilotage.js</strong>
+
+   - Les autres fonctions sont rang&eacute;es comme indiqu&eacute; ci-dessus &sect; 8.
+
+   - Rel&egrave;vent du pilotage les fonctions suivantes :
+   
+     - affichage/masquage des iframes
+     - s&eacute;lection des options
+     - s&eacute;lection d'une branche/JVM
+     - lancement d'un test
+     - fonctions d'initialisation
+     - commandes du clavier.
+
+   - Rel&egrave;vent de l'ex&eacute;cution les fonctions suivantes :
+   
+     - ex&eacute;cution d'un test et tout ce qui en d&eacute;coule.
+
+10) <u>Processus d&eacute;roul&eacute; &agrave; partir du clic sur un test</u>
+
+   Voici un exemple (simplifi&eacute;) pour illustrer le cas g&eacute;n&eacute;ral :
+   
+   - Test_menu.xsl : onclick = runTest (event, ideAppli, ideTest)
+   - Test_menu.html: runTest()   : lance parent.runTest()
+   - pilotage.js   : runTest()   : lance exeTest()
+   - execution.js  : exeTest()   : exeUN (ideAppli, ideTest, branche, JVM)
+   - execution.js  : exeUN()     : calcul URL compl&egrave;te; openFrame() ou openOnglet()
+   - execution.js  : openFrame() : pr&eacute;pare une iframe et ex&eacute;cute l'URL
+                                   pose un &eacute;v&egrave;nement DoneTST (ideAppli,ideTest)
+   - execution.js  : DoneTST()   : lance TESTS.Done (ideAppli,ideTest)
+   - TEST_menu.html: Done()      : met l'icone done.png sur le test.
+
+<a name="Lancement"></a><h3>Lancement de Quickverif</h3>   Avec un fichier XML contenant tout, ajouter &agrave; l'URL de Quickverif :
+
+	   <i>?sous_repertoires/Fichier.xml</i>
+
+   Si les donn&eacute;es sont r&eacute;parties entre deux fichiers :
+   
+   - le premier pour les objets : Parametre, Ferme, Domaine, Branche, JVM et Refapp
+   - le second  pour les objets : Application et Test :
+
+	   <i>?sous_repertoires/premier.xml&amp;sous_repertoires/second.xml</i>
+
+   Par d&eacute;faut, Quickverif prend le fichier : <i>Config.xml</i>
+  
+<a href="#Sommaire"><h2>Retour au sommaire</h2></a>
+<hr/>
+</pre>
+</body>
+</html>

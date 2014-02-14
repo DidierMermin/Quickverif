@@ -1,0 +1,35 @@
+<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html><head>
+<meta type="text/html" charset="UTF-8"></meta>
+<meta name="viewport"  content="initial-scale=1.0, user-scalable=yes" />
+<meta name="author"    content="Didier MERMIN"></meta>
+<script type="text/javascript">
+	function JockerReq() {return document.getElementById ('jocker_test').value;}
+	function putText (texte) {
+		document.getElementById ('jocker_test').value = texte;
+		focusText();
+	}
+	function focusText() {document.getElementById ('jocker_test').focus();}
+</script>
+</head>
+<body onkeydown="parent.parent.keyDOWN(event,false);">
+	<textarea name="jocker_test" id="jocker_test" rows="3" cols="123"
+		 style="font-size:15pt; font-family:Arial;">
+	</textarea>
+</body>
+</html>

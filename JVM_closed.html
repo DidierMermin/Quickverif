@@ -1,0 +1,49 @@
+<!--
+	Copyright 2014 Didier Mermin
+	This file is part of Quickverif.
+    Quickverif is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+<meta type="text/html" charset="UTF-8"></meta>
+<meta name="viewport"  content="initial-scale=1.0, user-scalable=yes" />
+<meta name="author"    content="Didier MERMIN"></meta>
+<script type="text/javascript" src="js/routines.js"></script>
+<script type="text/javascript">
+	function setTitre (texte) {
+		document.getElementById ('image').style.display = 'none';
+		document.getElementById ('titre').style.display = 'block';
+		document.getElementById ('titre').className     = 'titre';   //+parent.Theme;
+		document.getElementById ('titre').innerHTML     = texte;
+	}
+	function ResetALL() {
+		document.getElementById ('Quickverif').src  = 'images/jvm_closed'+parent.Theme+'.jpg';
+		document.getElementById ('titre').className = 'titre';       //+parent.Theme;
+	}
+</script>
+<style type="text/css">
+	.titre {color:		      #9999AA;
+		    background-color: #0E448F;
+			text-align:       center;
+			letter-spacing:   2px;
+			font:             1.8em "Engravers MT",arial,sans-serif;
+			font-weight:      bold;
+			}
+</style>
+</head>
+<body onload="setNoSelect();" onkeydown="parent.keyDOWN(event,true);">
+	<div id="image"               style="display:block"><img src="images/jvm_closed1.jpg" id="Quickverif" border="0"></img></div>
+	<div id="titre" class="titre" style="display:none;"></div>
+</body>
+</html>
