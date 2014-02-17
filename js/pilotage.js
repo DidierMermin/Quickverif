@@ -146,14 +146,13 @@
 			CDE.SetON ('Frames' );
 			CDE.Reset ('Onglets');
 			modOuv = 'Frames';
-			return;
 		}
 		if (Mode == 'Onglets') {
 			CDE.Reset ('Frames' );
 			CDE.SetON ('Onglets');
 			modOuv = 'Onglets';
-			RAZ();
 		}
+		RAZ();                                   // Pour éviter problème de comptage des exécutions
 	}
 	function Home() {
 		RAZ();
