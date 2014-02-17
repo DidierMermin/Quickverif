@@ -92,6 +92,7 @@
 			for (i=0; i<nbREF; i++) {
 				nom = mybra.reflst[i].Nom;
 				app = applst[appnum[nom]];
+				if (myapp != '' && myapp != nom) continue; // Not the appli the user wants
 				for (j=0; j<app.tstlst.length; j++) {
 					tst = app.tstlst[j];
 					ret = exeTest (app.Ide, tst.Ide);      // Execute le test
@@ -104,6 +105,7 @@
 			for (i=0; i<nbREF; i++) {
 				nom = mydom.reflst[i].Nom;
 				app = applst[appnum[nom]];
+				if (myapp != '' && myapp != nom) continue; // Not the appli the user wants
 				for (j=0; j<app.tstlst.length; j++) {
 					tst = app.tstlst[j];
 					ret = exeTest (app.Ide, tst.Ide);      // Execute le test
@@ -144,10 +146,7 @@
 		return ok;
 	}
 	function execUN (appID, tstID, bra, jvm) {
-		if (iExec >= maxLancements) {
-			alert ('Nombre maximum de lancements atteint (' + maxLancements + ').\nFaire une RAZ.');
-			return ko
-		}
+		if (!checkNbExec()) return ko;                     // Trop de lancements déjà faits
 		if (bra.Ide === null || bra.Ide == '') {alert ("Cliquez d'abord sur une branche."); return ko;}
 		iExec += 1;
 		var numExec = iExec;                               // Car besoin d'une variable locale
@@ -155,6 +154,8 @@
 		var Run = (modOuv == 'Frames') ? function() {openFrame  (numExec, appID, tstID, bra, jvm);}
 		                               : function() {openOnglet (numExec, appID, tstID, bra, jvm);};
 		exelst[numExec] = setTimeout (Run, Sdelai);
+		// Ci-dessous : cas particulier dans lequel il ne faut jamais boucler
+		if (appID == 'Jocker') {if (JockerReq().substring (0,7) == 'http://') return ko;}
 		Sdelai += Qdelai;              // Le prochain sera exécuté 'Sdelai ms' après cette instruction
 		return ok;
 	}
@@ -254,5 +255,14 @@
 		gototop();
 	}
 	function DoneTST (appli, ID) {if (appli != 'Jocker') TESTS.Done (appli, ID);}
+	function checkNbExec() {
+		if (iExec < maxLancements) return ok;
+		if (modOuv == 'Frames') {
+			alert ('Nombre maximum de lancements atteint (' + maxLancements + ').\nFaire une RAZ.');
+			return ko;
+		}
+		iExec = 0;                               // Mode onglets ==> une simple RAZ suffit
+		return ok
+	}
 
 /* ---------------------------------------------------------------------------------------------- */

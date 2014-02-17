@@ -152,6 +152,7 @@
 			CDE.Reset ('Frames' );
 			CDE.SetON ('Onglets');
 			modOuv = 'Onglets';
+			RAZ();
 		}
 	}
 	function Home() {
