@@ -21,7 +21,8 @@
 <script type="text/javascript" src="js/routines.js"></script>
 <script type="text/javascript">
 	function getURL() {
-		var URL  = location.search.substring (1);
+		var pos = location.href.indexOf ("?");             // Don't use location.search !
+		var URL = location.href.substring (pos+1);
 		if (URL != '') this.location.assign (URL);
 	}
 </script>
