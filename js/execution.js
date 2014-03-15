@@ -73,7 +73,7 @@
 		return URI;
 	}
 	function checkNbLancements() {
-		var nbLancementsToDo = mybra.nbTST;
+		var nbLancementsToDo = (myapp.Ide !== undefined) ? myapp.nbTST : mybra.nbTST;
 		if (mydom.nbJVM > 1 && myjvm == allJVM) nbLancementsToDo *= mydom.nbJVM;
 		if (mydom.nbBRA > 1 && Mono  == false)  nbLancementsToDo *= mydom.nbBRA;
 		if (nbLancementsToDo <= maxLancements) return ok;
@@ -84,6 +84,9 @@
 		if (mybra.Ide  === undefined) {alert ("Cliquez d'abord sur une branche."); return ko;}
 		if (mybra.nbTST == 0)         {alert ('Aucun test pour ' + mybra.Ide);     return ko;}
 		if (mydom.Ide  === undefined) {alert ("Cliquez d'abord sur une branche."); return ko;}
+		if (myapp.Ide  !== undefined) {
+			if (myapp.nbTST == 0) {alert ('Aucun test pour ' + myapp.Ide); return ko;}
+		}
 		if (!checkNbLancements()) return ko;               // Trop de lancements à faire
 		RAZ();                                             // Ferme iframes précédemment ouvertes
 		var i, j, app, nom, tst, ret;
@@ -92,7 +95,7 @@
 			for (i=0; i<nbREF; i++) {
 				nom = mybra.reflst[i].Nom;
 				app = applst[appnum[nom]];
-				if (myapp != '' && myapp != nom) continue; // Not the appli the user wants
+				if (myapp.Ide != undefined && myapp.Ide != nom) continue; // Not the appli the user wants
 				for (j=0; j<app.tstlst.length; j++) {
 					tst = app.tstlst[j];
 					ret = exeTest (app.Ide, tst.Ide);      // Execute le test
@@ -105,7 +108,7 @@
 			for (i=0; i<nbREF; i++) {
 				nom = mydom.reflst[i].Nom;
 				app = applst[appnum[nom]];
-				if (myapp != '' && myapp != nom) continue; // Not the appli the user wants
+				if (myapp.Ide != undefined && myapp.Ide != nom) continue; // Not the appli the user wants
 				for (j=0; j<app.tstlst.length; j++) {
 					tst = app.tstlst[j];
 					ret = exeTest (app.Ide, tst.Ide);      // Execute le test

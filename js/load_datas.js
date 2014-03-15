@@ -1,19 +1,3 @@
-/*
-	Copyright 2014 Didier Mermin
-	This file is part of Quickverif.
-    Quickverif is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
-*/
 /* Ce fichier est dédié au chargement des fichiers XML et à leur parsing en JS */
 
 /* ---------------------------------------------------------------------------------------------
@@ -67,8 +51,8 @@
 	}
 	var Refapp = function (Nom) {                          // Refapp = "lien" entre branches et applis
 		this.Nom    = Nom;                                 // Par ex: mpmstore
-		this.Uri    = '';                                  // Par ex: :8081
-		this.Via    = '';                                  // Ex: http://11.12.13.14/cgi-bin/wget.sh?
+		this.Uri    = '';                                  // Par ex: :8040 pour mpmstore
+		this.Via    = '';                                  // Ex: http://10.10.10.43/cgi-bin/wget.sh?
 	}
 	var Application = function (Ide) {
 		this.Ide    = Ide;
@@ -79,7 +63,7 @@
 	var Test = function (Ide, Req) {                       // Peut être dans plusieurs applications
 		this.Ide    = Ide;
 		this.Req    = Req;
-		this.Via    = '';                                  // Ex: http://11.12.13.14/applis/testXML.php?ip=
+		this.Via    = '';                                  // Ex: http://10.10.10.43/indus/testxmlB.php?ip=
 	}
 
 	/* Cree application Jocker avec un test vide */
@@ -127,6 +111,19 @@
 			return false;
 		}
 		/*
+			Affichage HTML des applications
+		*/
+		var ficxsl = 'Applis_menu.xsl'
+		log ('Start parsing de ' + braxml + ' en XSL via ' + ficxsl);
+		log ("Pour l'affichage du menu des applications.");
+		try {APPLIS.addMenuAPP (braxml, ficxsl);}
+		catch(e) {
+			log ("Impossible d'afficher les applicaionts en HTML via " + ficxsl);
+			log ('Error Message : ' +  e.message);
+			log ('Error Code    : ' + (e.number & 0xFFFF));
+			log ('Error Name    : ' +  e.name);
+		}
+		/*
 			Chargement des applications/tests
 		*/
 		if (!lance_parseApplisTests (tstxml)) return false;
@@ -148,6 +145,7 @@
 		log ("--------------------------------------------------------------------------------------------------------------------------------------------------");
 		log ('Traitements post parsing');
 		/* Compte nombre de tests par application et met en titre l'attribut Via dans les tests */
+		/* Note: actuellement, un seul test a un attribut Via : dealer locator XML B dans BS    */
 		setTestsVia();
 		/* Calcul de certaines donnees et mise a jour title HTML des branches */
 		/* Cette fonction a besoin des résultats de setTestsVia()  */
@@ -467,8 +465,7 @@
 			/* Ajoute la JVM à son domaine */
 			j = domnum[dom];
 			p = domlst[j].jvmlst.length;
-			// maxJVM in pilotage.js
-			if (p >= maxJVM) {log ('Deja ' + maxJVM + ' JVM sur ce domaine ==> JVM ignoree.'); continue;}
+			if (p >= 4) {log ('Deja 4 JVM sur ce domaine ==> JVM ignoree.'); continue;}
 			domlst[j].jvmlst[p] = Uri;
 		}
 		log ('--------------------------------------------------------------------------------------------------------------------------------------------------');
@@ -505,8 +502,8 @@
 				+ '  Uri="' + Uri + '"'
 				+ '  Via="' + Via + '"'
 				+ ' - parent="' + per + ' ' + id + '"');
-			if (per != 'Domaine' && per != 'Branche') {
-				log ("Erreur: refapp n'appartient pas a un domaine ou a une branche.");
+			if (per != 'Domaine' && per != 'Branche' && per != 'JVM') {
+				log ("Erreur: ce Refapp n'appartient pas a un Domaine, une Branche ou une JVM.");
 				return false;
 			}
 			if (Nom === null) {log ('Erreur: Refapp sans Nom.');      return false;}

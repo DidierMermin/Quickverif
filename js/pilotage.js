@@ -35,7 +35,7 @@
 	var myjvm        = 0;                                  // Numero JVM active ou valeur de allJVM
 	var mybra        = new Branche;                        // Objet Branche de la branche active
 	var mydom        = new Domaine;                        // Objet Domaine de la branche active
-	var myapp        = '';                                 // Nom application sélectionnée
+	var myapp        = new Application;                    // Objet Application sélectionnée
 /*
 	B) Cacher/montrer les frames
 */
@@ -158,11 +158,11 @@
 		RAZ();
 		if (LOGopened) ouvreBRA();
 		(BRAopened) ? ResetBRA() : ResetAPP();
-		MonoMulti ('Reset' );
-		Ouverture ('Frames');
 		fermeJVM();
 		fermeTESTS();
 		fermeJOCKER();
+		Ouverture ('Frames');
+		MonoMulti ('Reset' );
 	}
 /*
 	D) Menu des JVM
@@ -221,25 +221,28 @@
 		(BRAopened) ? ouvreAPP() : ouvreBRA();
 	}
 	function ActiveAPP (IDBRA, IDAPP) {
-		if (branum[IDBRA] >= 0) {
-			if (mybra.Ide != undefined) {
-				if (mybra.Ide == IDBRA && myapp == IDAPP) return;
-				APPLIS.Reset (mybra.Ide, myapp);
+		if (appnum[IDAPP] >= 0) {
+			if (branum[IDBRA] >= 0) {
+				if (mybra.Ide != undefined && myapp.Ide != undefined) {
+					if (mybra.Ide == IDBRA && myapp.Ide == IDAPP) return;
+					APPLIS.Reset (mybra.Ide, myapp.Ide);
+				}
+				APPLIS.SetON (IDBRA, IDAPP);
+				myapp = applst[appnum[IDAPP]];
+				mybra = bralst[branum[IDBRA]];
+				mydom = domlst[mybra.Dom];
+				ResetJVM();
+				DisplayTESTApp (IDAPP);
+				MonoMulti ('Reset');
+				return true;
 			}
-			APPLIS.SetON (IDBRA, IDAPP);
-			myapp = IDAPP;
-			mybra = bralst[branum[IDBRA]];
-			mydom = domlst[mybra.Dom];
-			ResetJVM();
-			DisplayTESTApp (IDAPP);
-			MonoMulti ('Reset');
-			return true;
+			alert ('Branche inconnue: ' + IDBRA); return false;
 		}
-		alert ('Branche inconnue: ' + IDBRA); return false;
+		alert ('Application inconnue: ' + IDAPP); return false;
 	}
 	function ResetAPP() {
-		if (mybra.Ide != undefined) APPLIS.Reset (mybra.Ide, myapp);
-		myapp = '';
+		if (mybra.Ide != undefined && myapp.Ide != undefined) APPLIS.Reset (mybra.Ide, myapp.Ide);
+		myapp = new Application;
 		mybra = new Branche;
 		mydom = new Domaine;
 		myjvm = 0;

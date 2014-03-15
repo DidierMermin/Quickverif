@@ -1,20 +1,4 @@
-﻿<!--
-	Copyright 2014 Didier Mermin
-	This file is part of Quickverif.
-    Quickverif is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Quickverif.  If not, see <http://www.gnu.org/licenses/>.
--->
-<html>
+﻿<html>
 <head>
 <meta charset="UTF-8"></meta>
 <meta name="author"   content="Didier MERMIN"></meta>
@@ -22,7 +6,7 @@
 <script type="text/javascript" src="js/routines.js"></script>
 <script type="text/javascript">
 	/*
-		Chargement HTML des branches - appel par theload() in load_datas.js
+		Chargement HTML des applications - appel par theload() in load_datas.js
 	*/
 	function addMenuAPP (ficxml, ficxsl) {displayXML (ficxml, ficxsl, 'menu_place');}
 	/*
@@ -138,7 +122,7 @@
 					}
 </style>
 </head>
-<body onload="addMenuAPP ('Config.xml','Applis_menu.xsl'); setNoSelect();" onkeydown="parent.keyDOWN(event,true);">
+<body onload="setNoSelect();" onkeydown="parent.keyDOWN(event,true);">
 	<div id="menu_place">
 	</div>
 </body>
