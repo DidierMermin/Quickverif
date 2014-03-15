@@ -248,7 +248,7 @@
 			  par = liste[i];
 			  Ide = par.getAttribute ('Ide');
 			  Val = par.getAttribute ('Val');
-			log ('Parametre ' + i + ': Ide="' + Ide + '" Val="' + Val + '"');
+			log ('Parametre ' + (lon+i) + ': Ide="' + Ide + '" Val="' + Val + '"');
 			per = par.parentNode.nodeName;
 			if (per != root) {
 				log ('Erreur: parametre inclus dans "' + per + '" et non pas dans "' + root + '".');
@@ -261,10 +261,15 @@
 				log ('Caracteres possibles: AZaz09_./');
 				return false;
 			}
+			if (Val === null) {log ('Erreur: parametre sans Val.');      return false;}
+			if (Val ==  ''  ) {log ('Erreur: parametre avec Val vide.'); return false;}
 			/* Dectection doublon */
-			if (parnum[Ide] >= 0) {log ('Erreur: parametre doublon.');       return false;}
-			if (Val === null    ) {log ('Erreur: parametre sans Val.');      return false;}
-			if (Val ==  ''      ) {log ('Erreur: parametre avec Val vide.'); return false;}
+			if (parnum[Ide] >= 0) {
+				pos = parnum[Ide];
+				parlst[pos].Val = Val;
+				log (Ide + ' = parametre doublon ==> redefini: Val="' + Val + '"');
+				continue
+			}
 			/* Ajout en table */
 			pos = lon + i;
 			parlst[pos] = new Parametre (Ide, Val);
@@ -688,7 +693,7 @@
 		log (bra.Ide + ' applis: '+ totapp);
 	}
 
-	/* ----- PARSING DES OBJETS Application/Test ----- */
+	/* ----- PARSING DES OBJETS Parametre/Application/Test ----- */
 
 	function lance_parseApplisTests (tstxml) {
 		log ("--------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -726,8 +731,10 @@
 		return true;
 	}
 	function parseApplisTests (buffxml) {
-		if (!parseApp (buffxml)) return false;           // Alimente applst et appnum
-		if (!parseTst (buffxml)) return false;
+		if (!parseParam (buffxml)) return false;         // Alimente parlst et parnum (2nd time)
+		log ('Nombre total de parametres : ' + parlst.length);
+		if (!parseApp   (buffxml)) return false;         // Alimente applst et appnum
+		if (!parseTst   (buffxml)) return false;
 		return true;
 	}
 	function parseApp (buffxml) {
