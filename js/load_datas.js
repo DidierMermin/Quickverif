@@ -48,9 +48,9 @@
 		this.Pref   = Pref;
 		this.Suff   = Suff;
 		this.Titre  = '';
-		this.bralst = new Array();               // Liste numeros de branches
-		this.jvmlst = new Array();               // Liste numeros de JVM
-		this.reflst = new Array();               // Objets Refapp communs aux bra du dom
+		this.bralst = new Array();                         // Liste numeros de branches
+		this.jvmlst = new Array();                         // Objets JVM du domaine
+		this.reflst = new Array();                         // Objets Refapp communs aux bra du dom
 		this.nbBRA  = 0;
 		this.nbJVM  = 0;
 		this.nbREF  = 0;
@@ -61,14 +61,19 @@
 		this.Via    = '';                                  // Ex: ViaIndus (nom de parametre)
 		this.Dom    = 0;                                   // Numero domaine dans domlst
 		this.Titre  = '';
-		this.reflst = new Array();                         // Objets Refapp propres a branche
+		this.reflst = new Array();                         // Objets Refapp propres a la branche
 		this.nbREF  = 0;
 		this.nbTST  = 0;
 	}
+	var oneJVM = function (Num, Uri) {                     // Une JVM
+		this.Num    = Num;                                 // Number begining by 1
+		this.Uri    = Uri;                                 // URI partielle
+		this.reflst = new Array();                         // Objets Refapp propres a la JVM
+	}
 	var Refapp = function (Nom) {                          // Refapp = "lien" entre branches et applis
-		this.Nom    = Nom;                                 // Par ex: mpmstore
-		this.Uri    = '';                                  // Par ex: :8040 pour mpmstore
-		this.Via    = '';                                  // Ex: http://10.10.10.43/cgi-bin/wget.sh?
+		this.Nom    = Nom;                                 // Par ex: foo
+		this.Uri    = '';                                  // Par ex: :8181
+		this.Via    = '';                                  // Ex: http://10.11.12.13/cgi-bin/wget.sh?
 	}
 	var Application = function (Ide) {
 		this.Ide    = Ide;
@@ -79,7 +84,7 @@
 	var Test = function (Ide, Req) {                       // Peut être dans plusieurs applications
 		this.Ide    = Ide;
 		this.Req    = Req;
-		this.Via    = '';                                  // Ex: http://10.10.10.43/indus/testxmlB.php?ip=
+		this.Via    = '';                                  // Ex: http://10.11.12.13/cgi-bin/formulaire.php?ip=
 	}
 
 	/* Cree application Jocker avec un test vide */
@@ -161,7 +166,6 @@
 		log ("--------------------------------------------------------------------------------------------------------------------------------------------------");
 		log ('Traitements post parsing');
 		/* Compte nombre de tests par application et met en titre l'attribut Via dans les tests */
-		/* Note: actuellement, un seul test a un attribut Via : dealer locator XML B dans BS    */
 		setTestsVia();
 		/* Calcul de certaines donnees et mise a jour title HTML des branches */
 		/* Cette fonction a besoin des résultats de setTestsVia()  */
@@ -486,8 +490,8 @@
 			/* Ajoute la JVM à son domaine */
 			j = domnum[dom];
 			p = domlst[j].jvmlst.length;
-			if (p >= 4) {log ('Deja 4 JVM sur ce domaine ==> JVM ignoree.'); continue;}
-			domlst[j].jvmlst[p] = Uri;
+			if (p >= maxJVM) {log ('Deja ' + maxJVM + ' JVM sur ce domaine ==> JVM ignoree.'); continue;}
+			domlst[j].jvmlst[p] = new oneJVM (p+1, Uri);
 		}
 		log ('--------------------------------------------------------------------------------------------------------------------------------------------------');
 		log ('Calcul nombre de JVM par domaine');
@@ -495,7 +499,7 @@
 			domlst[i].nbJVM = domlst[i].jvmlst.length;
 			if (domlst[i].nbJVM > 0) {
 				txt = '';
-				for (j=0; j<domlst[i].nbJVM; j++) {txt = txt + domlst[i].jvmlst[j] + ' ';}
+				for (j=0; j<domlst[i].nbJVM; j++) {txt = txt + domlst[i].jvmlst[j].Uri + ' ';}
 				log (domlst[i].Ide + ': ' + domlst[i].nbJVM + ' - Uri = ' + txt);
 			}
 		}

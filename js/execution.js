@@ -60,7 +60,7 @@
 		*/
 		var URI = bra.Uri;
 		if (ijvm == allJVM && dom.nbJVM > 0) URI += '&lt;toutes-jvm&gt;';
-		if (ijvm  > 0)                       URI += dom.jvmlst[ijvm-1];
+		if (ijvm  > 0)                       URI += dom.jvmlst[ijvm-1].Uri;
 		if (dom.Pref != null && dom.Pref != '') {
 			return URI + dom.Pref + dom.Uri;
 		}
